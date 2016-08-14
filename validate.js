@@ -21,6 +21,7 @@
   	this.options = {};
   	this.valified = true;
   	this.message = "";
+    this.error = {}
     that = this;
 
   	//TODO 使用更灵活的form对象
@@ -30,8 +31,9 @@
 
   	//匿名函数中的this值不是FormValidator的实例
   	this.form.onsubmit = function(event) {
+            that.resetBorder();
 	  	  		if(!that._validateForm()){
-	  	  			console.log(that.message)
+                  that.displayMessage();
 	                event.preventDefault();
 	            }
   			}
@@ -50,12 +52,14 @@
   FormValidator.prototype._validateForm = function() {
     this.valified = true;
     this.message = "";
+    this.error = {};
   	for(var key in this.options){
   		total_rule = this.options[key].rule.split(":");
   		var rule = total_rule[0];
   		var length = total_rule[1] || "";
   		if(!this._hooks[rule].call(this,this.findInput(key).value,length)){
-  			this.message = key + ": " +this.options[key].message
+        this.error['message'] = this.options[key].message;
+        this.error['identy'] = this.findInput(key);
   			this.valified = false;
   			break;
   		}
@@ -65,7 +69,6 @@
 
   FormValidator.prototype.findInput = function(identy) {
     if (classRex.test(identy) ||idRex.test(identy)) {
-      console.log("The identy is an ID or class")
       return doc. querySelector(identy) || null;
     }else{
       return this.form[identy] || null;
@@ -94,6 +97,21 @@
   		return (value.length === length)
   	}
   }
+
+  FormValidator.prototype.displayMessage = function() {
+    this.error.identy.style.border = "1px solid red";
+    this.error.identy.value = "";
+    this.error.identy.placeholder = this.error.message;
+  };
+
+  FormValidator.prototype.resetBorder = function() {
+    // console.log(this.form)
+    for(var key in this.options){
+      if (this.findInput(key).style) {
+        this.findInput(key).style.border = "1px solid black"
+      }
+    }
+  };
 
   win.FormValidator = FormValidator;
 })(window,document)
