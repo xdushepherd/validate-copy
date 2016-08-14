@@ -7,16 +7,22 @@
 <body>
 
 	<form name="form1">
-		<input name="heihei" />
-		<input name="heihei1" />
+		<input name="heihei"  class="heihei" />
+		<input name="heihei1" id="heihei1" />
 		<input name="heihei2" />
+		<input name="heihei3" />
 		<button type="submit">提交表单</button>	
 	</form>
 	<script type="text/javascript" src="./validate.js"></script>
 	<script type="text/javascript">
-		new FormValidator('form1',[{identy:"heihei",rule:"required",message:"不能为空"},
-			                       {identy:"heihei1",rule:"lt:20",message:"字符串长度不能多于20"},
+		var validator = new FormValidator(document.forms[0],[{identy:".heihei",rule:"required",message:"不能为空"},
+			                       {identy:"#heihei1",rule:"lt:20",message:"字符串长度不能多于20"},
 			                       {identy:"heihei2",rule:"gt:6",message:"字符串长度不能少于6"}
+			             ]);
+			validator.addValidateItem("phoneNumber",function(value){
+								return /^1[3|5|7|8]\d{9}$/.test(value)
+							});
+			validator.addValidateOption([{identy:"heihei3",rule:"phoneNumber",message:"手机格式不正确"}
 			             ])
 	</script>
 </body>
