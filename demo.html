@@ -19,10 +19,10 @@
 			                       {identy:"#heihei1",rule:"lt:20",message:"字符串长度不能多于20"},
 			                       {identy:"heihei2",rule:"gt:6",message:"字符串长度不能少于6"}
 			             ]);
-			validator.addValidateItem("phoneNumber",function(value){
+			validator.addRule("phoneNumber",function(value){
 								return /^1[3|5|7|8]\d{9}$/.test(value)
 							});
-			validator.addValidateOption([{identy:"heihei3",rule:"phoneNumber",message:"手机格式不正确"}
+			validator.addItems([{identy:"heihei3",rule:"phoneNumber",message:"手机格式不正确"}
 			             ])
 	</script>
 </body>
